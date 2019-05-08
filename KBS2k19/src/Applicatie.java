@@ -12,10 +12,29 @@ public class Applicatie extends JFrame implements ActionListener{
     private JTextField Tx;
     private JTextField Ty;
     private ArrayList<Component> Componenten;
+    private ArrayList<DBServer> DBServers;
+    private ArrayList<Webserver> Webservers;
 //    private JButton
     Panel Panel = new Panel();
 
     public Applicatie(){
+        Componenten = new ArrayList<>();
+        DBServers = new ArrayList<>();
+        Webservers = new ArrayList<>();
+        DBServer HAL9001DB = new DBServer("HAL9001DB ", 90, 5100);
+        DBServers.add(HAL9001DB);
+        DBServer HAL9002DB = new DBServer("HAL9002DB", 95, 7700);
+        DBServers.add(HAL9002DB);
+        DBServer HAL9003DB = new DBServer("HAL9003DB", 98, 122000)
+        DBServers.add(HAL9003DB);
+        Webservers.add(new Webserver("HAL9001W", 80, 2200));
+        Webservers.add(new Webserver("HAL9002W", 90, 3200));
+        Webservers.add(new Webserver("HAL9003W", 95, 5100));
+        Componenten.addAll(Webservers);
+        Componenten.addAll(DBServers);
+        Componenten.add(new Firewall("pfSense", 99.999, 2000));
+        Componenten.add(new Loadbalancer("DBloadbalancer", 99.999, 2000));
+
         setTitle("Infrastructuur Applicatie");
         setSize(800,400);
         setLayout(new FlowLayout());
@@ -41,6 +60,7 @@ public class Applicatie extends JFrame implements ActionListener{
         String[] types = { "DBServer","Webserver", "Loadbalancer    ","Firewall"};
 
         final JList<String> cb = new JList<>(types);
+        final JList<DBServer> DBS = new JList<>(DBServers);
         add(cb);
 //        cb.ad
         jbberekenKosten.setPreferredSize(new Dimension(200,50));
