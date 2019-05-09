@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +18,10 @@ public class Applicatie extends JFrame implements ActionListener{
     private ArrayList<Webserver> Webservers;
 //    private JButton
     Panel Panel = new Panel();
+    private JMenuBar menuBar;
+    private JMenu Bestand;
+    private JMenuItem BNew,BSave,BOpen;
+
 
     public Applicatie(){
         Componenten = new ArrayList<>();
@@ -25,7 +31,7 @@ public class Applicatie extends JFrame implements ActionListener{
         DBServers.add(HAL9001DB);
         DBServer HAL9002DB = new DBServer("HAL9002DB", 95, 7700);
         DBServers.add(HAL9002DB);
-        DBServer HAL9003DB = new DBServer("HAL9003DB", 98, 122000)
+        DBServer HAL9003DB = new DBServer("HAL9003DB", 98, 122000);
         DBServers.add(HAL9003DB);
         Webservers.add(new Webserver("HAL9001W", 80, 2200));
         Webservers.add(new Webserver("HAL9002W", 90, 3200));
@@ -39,6 +45,39 @@ public class Applicatie extends JFrame implements ActionListener{
         setSize(800,400);
         setLayout(new FlowLayout());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        menuBar = new JMenuBar();
+        this.setJMenuBar(menuBar);
+
+        Bestand = new JMenu("Bestand");
+        Bestand.addMenuListener(new MenuListener() {
+            public void menuSelected(MenuEvent e) {
+                System.out.println("selected bestand");
+            }
+
+            public void menuDeselected(MenuEvent e) {
+                System.out.println("deselected bestand");
+
+            }
+
+            public void menuCanceled(MenuEvent e) {
+                System.out.println("canceled bestand");
+
+            }
+        });
+        menuBar.add(Bestand);
+
+        BNew = new JMenuItem("New");
+        BNew.addActionListener(this);
+        Bestand.add(BNew);
+
+        BSave = new JMenuItem("Save");
+        BSave.addActionListener(this);
+        Bestand.add(BSave);
+
+        BOpen = new JMenuItem("open");
+        BOpen.addActionListener(this);
+        Bestand.add(BOpen);
 
         //bestand button
         jbbestand = new JButton("Bestand");
@@ -60,7 +99,7 @@ public class Applicatie extends JFrame implements ActionListener{
         String[] types = { "DBServer","Webserver", "Loadbalancer    ","Firewall"};
 
         final JList<String> cb = new JList<>(types);
-        final JList<DBServer> DBS = new JList<>(DBServers);
+        //final JList<DBServer> DBS = new JList<>(DBServers);
         add(cb);
 //        cb.ad
         jbberekenKosten.setPreferredSize(new Dimension(200,50));
