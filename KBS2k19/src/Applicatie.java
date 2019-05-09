@@ -23,6 +23,9 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
     //    private JButton
     Panel Panel = new Panel();
     JFrame frame = new JFrame();
+    private JMenuBar menuBar;
+    private JMenu Bestand;
+    private JMenuItem BNew,BSave,BOpen;
 
     public Applicatie() {
         Componenten = new ArrayList<>();
