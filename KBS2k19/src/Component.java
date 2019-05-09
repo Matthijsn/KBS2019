@@ -19,4 +19,8 @@ public abstract class Component {
                 ", kosten=" + kosten +
                 '}';
     }
+
+    public String getNaam() {
+        return naam;
+    }
 }
