@@ -101,8 +101,8 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
         add(jlbeschikbaarheid);
         jlbeschikbaarheid.setPreferredSize(new Dimension(200, 50));
         JTextField jtbeschikbaarheid = new JTextField("");
-        frame.add(jlbeschikbaarheid);
-        frame.add(jtbeschikbaarheid);
+        add(jlbeschikbaarheid);
+        add(jtbeschikbaarheid);
         jtbeschikbaarheid.setPreferredSize(new Dimension(80, 50));
         jlbeschikbaarheid.setPreferredSize(new Dimension(120, 50));
 
@@ -120,7 +120,7 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
         Ctree.add(N2);
         DefaultMutableTreeNode N3 = new DefaultMutableTreeNode("Firewall");
         Ctree.add(N3);
-        DefaultMutableTreeNode N4 = new DefaultMutableTreeNode("Loadbalancer                    ");
+        DefaultMutableTreeNode N4 = new DefaultMutableTreeNode("Loadbalancer");
         Ctree.add(N4);
 
         for(DBServer D:DBServers){
@@ -142,14 +142,8 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
         JScrollPane JSP = new JScrollPane(tree);
         JSP.setPreferredSize(new Dimension(175, 200));
         add(JSP);
-        add(Tx);
-        add(Ty);
-
-        MouseListener mouseListener = new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                    System.out.println(cb.getSelectedValue());
-            }
-        };
+//        add(Tx);
+//        add(Ty);
         MouseListener beschikbaarheidListener = new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 System.out.println(jtbeschikbaarheid.getText());

@@ -2,18 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7cd40675-fbf6-4401-8b49-4701ef24954a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/KBS2k19/Applicatie$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/KBS2k19/Applicatie$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/KBS2k19/Applicatie.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/KBS2k19/Applicatie.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/KBS2k19/Component.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/KBS2k19/Component.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/KBS2k19/DBServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/KBS2k19/DBServer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/KBS2k19/Firewall.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/KBS2k19/Firewall.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/KBS2k19/Loadbalancer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/KBS2k19/Loadbalancer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/KBS2k19/Panel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/KBS2k19/Panel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/KBS2k19/Webserver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/KBS2k19/Webserver.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Applicatie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Applicatie.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Component.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Component.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -41,12 +30,14 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Applicatie.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1993">
-              <caret line="140" column="16" lean-forward="true" selection-start-line="140" selection-start-column="16" selection-end-line="140" selection-end-column="16" />
+            <state relative-caret-position="1092">
+              <caret line="92" column="49" lean-forward="true" selection-start-line="92" selection-start-column="49" selection-end-line="92" selection-end-column="49" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2247#2248#0" expanded="true" />
                 <element signature="e#2317#2318#0" expanded="true" />
+                <element signature="e#5646#5808#0" expanded="true" />
+                <element signature="e#5807#5808#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -202,7 +193,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1557404375731" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1557404805761" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -254,7 +245,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="21192000" />
+    <option name="totallyTimeSpent" value="21400000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1920" height="983" extended-state="6" />
@@ -382,12 +373,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Applicatie.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1993">
-          <caret line="140" column="16" lean-forward="true" selection-start-line="140" selection-start-column="16" selection-end-line="140" selection-end-column="16" />
+        <state relative-caret-position="1092">
+          <caret line="92" column="49" lean-forward="true" selection-start-line="92" selection-start-column="49" selection-end-line="92" selection-end-column="49" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#2247#2248#0" expanded="true" />
             <element signature="e#2317#2318#0" expanded="true" />
+            <element signature="e#5646#5808#0" expanded="true" />
+            <element signature="e#5807#5808#0" expanded="true" />
           </folding>
         </state>
       </provider>
