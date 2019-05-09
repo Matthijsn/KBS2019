@@ -95,8 +95,11 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
         jlkosten.setPreferredSize(new Dimension(200, 50));
 
         jlbeschikbaarheid = new JLabel("Beschikbaarheid: ");
+        JTextField jtbeschikbaarheid = new JTextField("");
         frame.add(jlbeschikbaarheid);
-        jlbeschikbaarheid.setPreferredSize(new Dimension(200, 50));
+        frame.add(jtbeschikbaarheid);
+        jtbeschikbaarheid.setPreferredSize(new Dimension(80, 50));
+        jlbeschikbaarheid.setPreferredSize(new Dimension(120, 50));
 
         jbberekenKosten = new JButton("Bereken Kosten");
         jbberekenKosten.setPreferredSize(new Dimension(200, 50));
@@ -113,6 +116,12 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
                     System.out.println(cb.getSelectedValue());
             }
         };
+        MouseListener beschikbaarheidListener = new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                System.out.println(jtbeschikbaarheid.getText());
+            }
+        };
+        jbberekenKosten.addMouseListener(beschikbaarheidListener);
         System.out.println("hoii");
         cb.addMouseListener(mouseListener);
         frame.add(Panel);
