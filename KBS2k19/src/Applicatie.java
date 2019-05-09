@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -44,6 +46,39 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
         frame.setSize(800, 400);
         frame.setLayout(new FlowLayout());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        menuBar = new JMenuBar();
+        this.setJMenuBar(menuBar);
+
+        Bestand = new JMenu("Bestand");
+        Bestand.addMenuListener(new MenuListener() {
+            public void menuSelected(MenuEvent e) {
+                System.out.println("selected bestand");
+            }
+
+            public void menuDeselected(MenuEvent e) {
+                System.out.println("deselected bestand");
+
+            }
+
+            public void menuCanceled(MenuEvent e) {
+                System.out.println("canceled bestand");
+
+            }
+        });
+        menuBar.add(Bestand);
+
+        BNew = new JMenuItem("New");
+        BNew.addActionListener(this);
+        Bestand.add(BNew);
+
+        BSave = new JMenuItem("Save");
+        BSave.addActionListener(this);
+        Bestand.add(BSave);
+
+        BOpen = new JMenuItem("open");
+        BOpen.addActionListener(this);
+        Bestand.add(BOpen);
 
         //bestand button
         jbbestand = new JButton("Bestand");
