@@ -1,6 +1,8 @@
 import javax.swing.*;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import java.awt.*;
@@ -14,17 +16,21 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
     private JButton jbberekenKosten;
     private JTextField Tx;
     private JTextField Ty;
+    private JLabel Lx;
+    private JLabel Ly;
+    private JButton Plaats;
     private ArrayList<Component> Componenten;
     private ArrayList<DBServer> DBServers;
     private ArrayList<Webserver> Webservers;
     private ArrayList<Firewall> Firewalls;
     private ArrayList<Loadbalancer> Loadbalancers;
     private JTree tree;
+    private String SelectComponent;
     //    private JButton
     Panel Panel = new Panel();
     private JMenuBar menuBar;
     private JMenu Bestand;
-    private JMenuItem BNew,BSave,BOpen;
+    private JMenuItem BNew, BSave, BOpen;
 
     public Applicatie() {
         Componenten = new ArrayList<>();
@@ -109,9 +115,7 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
         jbberekenKosten = new JButton("Bereken Kosten");
         jbberekenKosten.setPreferredSize(new Dimension(200, 50));
         add(jbberekenKosten);
-        //        String[] DBS = {" "};
 
-        //create the root node
         DefaultMutableTreeNode Ctree = new DefaultMutableTreeNode("Componenten");
 
         DefaultMutableTreeNode N1 = new DefaultMutableTreeNode("DBServers");
@@ -123,39 +127,69 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
         DefaultMutableTreeNode N4 = new DefaultMutableTreeNode("Loadbalancer");
         Ctree.add(N4);
 
-        for(DBServer D:DBServers){
+        for (DBServer D : DBServers) {
             ImageIcon imageIcon = new ImageIcon(Applicatie.class.getResource("database.png"));
             DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
             renderer.setLeafIcon(imageIcon);
             N1.add(new DefaultMutableTreeNode(D.getNaam()));
         }
-        for(Webserver D:Webservers){
+        for (Webserver D : Webservers) {
             N2.add(new DefaultMutableTreeNode(D.getNaam()));
         }
-        for(Firewall D:Firewalls){
+        for (Firewall D : Firewalls) {
             N3.add(new DefaultMutableTreeNode(D.getNaam()));
         }
-        for(Loadbalancer D:Loadbalancers){
+        for (Loadbalancer D : Loadbalancers) {
             N4.add(new DefaultMutableTreeNode(D.getNaam()));
         }
         tree = new JTree(Ctree);
+//        tree.setRootVisible(false);
         JScrollPane JSP = new JScrollPane(tree);
         JSP.setPreferredSize(new Dimension(175, 200));
         add(JSP);
-//        add(Tx);
-//        add(Ty);
+        tree.getSelectionModel().addTreeSelectionListener(new TreeSelectionListener() {
+            @Override
+            public void valueChanged(TreeSelectionEvent e) {
+                DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+                SelectComponent = selectedNode.getUserObject().toString();
+            }
+        });
+        Tx = new JTextField(3);
+        Ty = new JTextField(3);
+        Lx = new JLabel("x:");
+        Ly = new JLabel("y:");
+        Plaats = new JButton("Plaats");
+        Plaats.addActionListener(this);
+        add(Panel);
+        add(Lx);
+        add(Tx);
+        add(Ly);
+        add(Ty);
+        add(Plaats);
         MouseListener beschikbaarheidListener = new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 System.out.println(jtbeschikbaarheid.getText());
             }
         };
         jbberekenKosten.addMouseListener(beschikbaarheidListener);
-        System.out.println("hoii");
-        add(Panel);
         setVisible(true);
     }
 
     public void actionPerformed(ActionEvent e){
+        if(e.getSource()==Plaats){
+            try {
+                String x1 = Tx.getText();
+                Integer.parseInt(x1);
+                String y1 = Ty.getText();
+                Integer.parseInt(y1);
+            }catch(NumberFormatException NFE){
+                JOptionPane.showMessageDialog(this, "onjuiste invoer!");
+            }
+            String x1 = Tx.getText();
+            int x = Integer.parseInt(x1);
+            String y1 = Ty.getText();
+            int y = Integer.parseInt(y1);
+        }
     }
     public void mousePressed(MouseEvent e){
     }
