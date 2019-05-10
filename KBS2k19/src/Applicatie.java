@@ -102,11 +102,11 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
         Bestand.add(BOpen);
 
         //bestand button
-        jbbestand = new JButton("Bestand");
-        add(jbbestand);
+        //jbbestand = new JButton("Bestand");
+        //add(jbbestand);
         //jbbestand.addActionListener(this);
-        jbbestand.setPreferredSize(new Dimension(150, 50));
-        jbbestand.setAlignmentX(LEFT_ALIGNMENT);
+        //jbbestand.setPreferredSize(new Dimension(150, 50));
+        //jbbestand.setAlignmentX(LEFT_ALIGNMENT);
 
         jlkosten = new JLabel("Kosten: ");
         add(jlkosten);
@@ -167,15 +167,15 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
         Plaats.addActionListener(this);
         add(Panel);
         add(Plaats);
-        back1 = new JLabel("Beschikbaarheid: ");
+        back1 = new JLabel("Gewenste beschikbaarheid: (%)");
         add(back1);
         JTextField back2 = new JTextField("");
         add(back2);
         back2.setPreferredSize(new Dimension(80, 50));
-        back1.setPreferredSize(new Dimension(120, 50));
+        back1.setPreferredSize(new Dimension(180, 50));
 
-        back3 = new JButton("Bereken Kosten");
-        back3.setPreferredSize(new Dimension(200, 50));
+        back3 = new JButton("Bereken goedkoopste configuratie");
+        back3.setPreferredSize(new Dimension(240, 50));
         add(back3);
         MouseListener backListener = new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
@@ -262,6 +262,7 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
     }
 
     private double price(String type, int[] cheapest) {
+
         double total = 0;
         if(cheapest[0] == -1) {
             System.out.println("Configuratie onmogelijk!");
@@ -270,29 +271,29 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
         switch (type) {
             case "WEBSERVER":
                 for(int i = 0; i < cheapest.length; i++) {
-                    System.out.println("WEBSERVER: " + this.getWebservers().get(i).getNaam() + "(" + this.getWebservers().get(i).getKosten() + ")");
-                    int price = this.getWebservers().get(i).getKosten();
+                    System.out.println("WEBSERVER: " + this.getWebservers().get(cheapest[i]).getNaam() + "(€"+ this.getWebservers().get(cheapest[i]).getKosten() + " | " + this.getWebservers().get(cheapest[i]).getBeschikbaarheid() + "% uptime)");
+                    int price = this.getWebservers().get(cheapest[i]).getKosten();
                     total = total + price;
                 }
                 break;
             case "DBSERVER":
                 for(int i = 0; i < cheapest.length; i++) {
-                    System.out.println("DBSERVER: " + this.getDBServers().get(i).getNaam() + "(" + this.getDBServers().get(i).getKosten() + ")");
-                    int price = this.getDBServers().get(i).getKosten();
+                    System.out.println("DBSERVER: " + this.getDBServers().get(cheapest[i]).getNaam() + "(€"+ this.getDBServers().get(cheapest[i]).getKosten() + " | " + this.getDBServers().get(cheapest[i]).getBeschikbaarheid() + "% uptime)");
+                    int price = this.getDBServers().get(cheapest[i]).getKosten();
                     total = total + price;
                 }
                 break;
             case "LOADBALANCER":
                 for(int i = 0; i < cheapest.length; i++) {
-                    System.out.println("LOADBALANCER: " + this.getLoadbalancers().get(i).getNaam() + "(" + this.getLoadbalancers().get(i).getKosten() + ")");
-                    int price = this.getLoadbalancers().get(i).getKosten();
+                    System.out.println("LOADBALANCER: " + this.getLoadbalancers().get(cheapest[i]).getNaam() + "(€"+ this.getLoadbalancers().get(cheapest[i]).getKosten() + " | " + this.getLoadbalancers().get(cheapest[i]).getBeschikbaarheid() + "% uptime)");
+                    int price = this.getLoadbalancers().get(cheapest[i]).getKosten();
                     total = total + price;
                 }
                 break;
             case "FIREWALL":
                 for(int i = 0; i < cheapest.length; i++) {
-                    System.out.println("FIREWALL: " + this.getFirewalls().get(i).getNaam() + "(" + this.getFirewalls().get(i).getKosten() + ")");
-                    int price = this.getFirewalls().get(i).getKosten();
+                    System.out.println("FIREWALL: " + this.getFirewalls().get(cheapest[i]).getNaam() + "(€"+ this.getFirewalls().get(cheapest[i]).getKosten() + " | " + this.getFirewalls().get(cheapest[i]).getBeschikbaarheid() + "% uptime)");
+                    int price = this.getFirewalls().get(cheapest[i]).getKosten();
                     total = total + price;
                 }
                 break;
@@ -302,6 +303,57 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
 
     public int[] calc(double[] percentages, double goal) {
         int length = percentages.length;
+        for(int i = 0; i < length; i++) {
+            if (percentages[i] >= goal) {
+                //System.out.println("length = " + length + " & percentages[" + i + "] (" + percentages[i] + ") is >= " + goal);
+                return new int[]{i};
+            }
+        }
+        for(int i = 0; i < length; i++) {
+            if (percentages[i] >= goal) {
+                return new int[]{i};
+            }
+            for (int j = 0; j < length; j++) {
+                if (((1 - (1 - (percentages[i] / 100)) * (1 - (percentages[j] / 100))) * 100) >= goal) {
+                    return new int[]{i, j};
+                }
+            }
+        }
+        for(int i = 0; i < length; i++) {
+            if (percentages[i] >= goal) {
+                return new int[]{i};
+            }
+            for (int j = 0; j < length; j++) {
+                if (((1 - (1 - (percentages[i] / 100)) * (1 - (percentages[j] / 100))) * 100) >= goal) {
+                    return new int[]{i, j};
+                }
+                for (int k = 0; k < length; k++) {
+                    if (((1 - (1 - (percentages[i] / 100)) * (1 - (percentages[j] / 100)) * (1 - (percentages[k] / 100))) * 100) >= goal) {
+                        return new int[]{i, j, k};
+                    }
+                }
+            }
+        }
+        for(int i = 0; i < length; i++) {
+            if (percentages[i] >= goal) {
+                return new int[]{i};
+            }
+            for (int j = 0; j < length; j++) {
+                if (((1 - (1 - (percentages[i] / 100)) * (1 - (percentages[j] / 100))) * 100) >= goal) {
+                    return new int[]{i, j};
+                }
+                for (int k = 0; k < length; k++) {
+                    if (((1 - (1 - (percentages[i] / 100)) * (1 - (percentages[j] / 100)) * (1 - (percentages[k] / 100))) * 100) >= goal) {
+                        return new int[]{i, j, k};
+                    }
+                    for (int l = 0; l < length; l++) {
+                        if (((1 - (1 - (percentages[i] / 100)) * (1 - (percentages[j] / 100)) * (1 - (percentages[k] / 100)) * (1 - (percentages[l] / 100))) * 100) >= goal) {
+                            return new int[]{i, j, k, l};
+                        }
+                    }
+                }
+            }
+        }
         for(int i = 0; i < length; i++) {
             if(percentages[i] >= goal) {
                 return new int[]{ i };
