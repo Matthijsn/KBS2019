@@ -66,4 +66,14 @@ public abstract class Component {
         }
         return Image;
     }
+
+
+
+    public double getBeschikbaarheid() {
+        return beschikbaarheid;
+    }
+
+    public int getKosten() {
+        return kosten;
+    }
 }
