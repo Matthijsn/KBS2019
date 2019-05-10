@@ -187,8 +187,8 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
         }
     }
     public void TekenOntwerp(Graphics g){
-        drawx = 100;
-        drawy = 50;
+        drawx = 150;
+        drawy = 75;
         for(Component C:Ontwerp){
             g.drawImage(C.getAfbeelding(), drawx, drawy, null);
             drawx = drawx+60;
