@@ -20,7 +20,21 @@ public abstract class Component {
                 '}';
     }
 
+
+
     public String getNaam() {
         return naam;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public double getBeschikbaarheid() {
+        return beschikbaarheid;
+    }
+
+    public int getKosten() {
+        return kosten;
     }
 }
