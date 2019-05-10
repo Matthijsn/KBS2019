@@ -8,7 +8,7 @@ public class Panel extends JPanel {
     private Applicatie Applicatietje;
     private BufferedImage cloud;
     public Panel(Applicatie A){
-        Applicatietje=A;
+        Applicatietje = A;
         setPreferredSize(new Dimension(400, 200));
         setBackground(Color.LIGHT_GRAY);
         try{
