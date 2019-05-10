@@ -1,3 +1,4 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
@@ -7,6 +8,9 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -17,23 +21,24 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
     private JLabel jlkosten;
     private JLabel jlbeschikbaarheid;
     private JButton jbberekenKosten;
-    private JTextField Tx;
-    private JTextField Ty;
-    private JLabel Lx;
-    private JLabel Ly;
     private JButton Plaats;
     private ArrayList<Component> Componenten;
     private ArrayList<DBServer> DBServers;
     private ArrayList<Webserver> Webservers;
     private ArrayList<Firewall> Firewalls;
     private ArrayList<Loadbalancer> Loadbalancers;
+    private ArrayList<Component> Ontwerp;
     private JTree tree;
     private String SelectComponent;
+    private Component SelectObject;
+    private Image plaatje;
     //    private JButton
-    Panel Panel = new Panel();
+    Panel Panel = new Panel(this);
     private JMenuBar menuBar;
     private JMenu Bestand;
     private JMenuItem BNew, BSave, BOpen;
+    private int drawx;
+    private int drawy;
 
     public Applicatie() {
         Componenten = new ArrayList<>();
@@ -41,6 +46,7 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
         Webservers = new ArrayList<>();
         Firewalls = new ArrayList<>();
         Loadbalancers = new ArrayList<>();
+        Ontwerp = new ArrayList<>();
         DBServer HAL9001DB = new DBServer("HAL9001DB ", 90, 5100);
         DBServers.add(HAL9001DB);
         DBServer HAL9002DB = new DBServer("HAL9002DB", 95, 7700);
@@ -109,10 +115,10 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
         jlbeschikbaarheid = new JLabel("Beschikbaarheid: ");
         add(jlbeschikbaarheid);
         jlbeschikbaarheid.setPreferredSize(new Dimension(200, 50));
-        JTextField jtbeschikbaarheid = new JTextField("");
+        JLabel jLbeschikbaarheid = new JLabel("");
         add(jlbeschikbaarheid);
-        add(jtbeschikbaarheid);
-        jtbeschikbaarheid.setPreferredSize(new Dimension(80, 50));
+        add(jLbeschikbaarheid);
+        jLbeschikbaarheid.setPreferredSize(new Dimension(80, 50));
         jlbeschikbaarheid.setPreferredSize(new Dimension(120, 50));
 
         jbberekenKosten = new JButton("Bereken Kosten");
@@ -157,17 +163,9 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
                 SelectComponent = selectedNode.getUserObject().toString();
             }
         });
-        Tx = new JTextField(3);
-        Ty = new JTextField(3);
-        Lx = new JLabel("x:");
-        Ly = new JLabel("y:");
         Plaats = new JButton("Plaats");
         Plaats.addActionListener(this);
         add(Panel);
-        add(Lx);
-        add(Tx);
-        add(Ly);
-        add(Ty);
         add(Plaats);
         back1 = new JLabel("Beschikbaarheid: ");
         add(back1);
@@ -191,23 +189,34 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
             }
         };
         jbberekenKosten.addMouseListener(beschikbaarheidListener);
+//        MouseListener beschikbaarheidListener = new MouseAdapter() {
+//            public void mouseClicked(MouseEvent e) {
+//                System.out.println(jtbeschikbaarheid.getText());
+//            }
+//        };
+//        jbberekenKosten.addMouseListener(beschikbaarheidListener);
         setVisible(true);
+
     }
 
     public void actionPerformed(ActionEvent e){
         if(e.getSource()==Plaats){
-            try {
-                String x1 = Tx.getText();
-                Integer.parseInt(x1);
-                String y1 = Ty.getText();
-                Integer.parseInt(y1);
-            }catch(NumberFormatException NFE){
-                JOptionPane.showMessageDialog(this, "onjuiste invoer!");
+            for(Component C:Componenten){
+                if(C.getNaam()==SelectComponent){
+                    SelectObject=C;
+                }
             }
-            String x1 = Tx.getText();
-            int x = Integer.parseInt(x1);
-            String y1 = Ty.getText();
-            int y = Integer.parseInt(y1);
+            Ontwerp.add(SelectObject);
+            repaint();
+
+        }
+    }
+    public void TekenOntwerp(Graphics g){
+        drawx = 100;
+        drawy = 50;
+        for(Component C:Ontwerp){
+            g.drawImage(C.getAfbeelding(), drawx, drawy, null);
+            drawx = drawx+60;
         }
     }
     public void mousePressed(MouseEvent e){
