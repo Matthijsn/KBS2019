@@ -29,6 +29,8 @@ public abstract class Component {
                 '}';
     }
 
+
+
     public String getNaam() {
         return naam;
     }
@@ -63,5 +65,15 @@ public abstract class Component {
             Image = Loadbalancer;
         }
         return Image;
+    }
+
+
+
+    public double getBeschikbaarheid() {
+        return beschikbaarheid;
+    }
+
+    public int getKosten() {
+        return kosten;
     }
 }
