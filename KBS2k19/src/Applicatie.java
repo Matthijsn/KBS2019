@@ -183,12 +183,12 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
             }
         };
         back3.addMouseListener(backListener);
-        MouseListener beschikbaarheidListener = new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                System.out.println(jtbeschikbaarheid.getText());
-            }
-        };
-        jbberekenKosten.addMouseListener(beschikbaarheidListener);
+        //MouseListener beschikbaarheidListener = new MouseAdapter() {
+        //    public void mouseClicked(MouseEvent e) {
+        //        System.out.println(jtbeschikbaarheid.getText());
+        //    }
+        //};
+        //jbberekenKosten.addMouseListener(beschikbaarheidListener);
 //        MouseListener beschikbaarheidListener = new MouseAdapter() {
 //            public void mouseClicked(MouseEvent e) {
 //                System.out.println(jtbeschikbaarheid.getText());
