@@ -1,4 +1,3 @@
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
@@ -8,11 +7,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Applicatie extends JFrame implements ActionListener, MouseListener {
     private final JLabel back1;
@@ -39,6 +34,8 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
     private JMenuItem BNew, BSave, BOpen;
     private int drawx;
     private int drawy;
+    private JButton opnieuw;
+    private int count;
 
     public Applicatie() {
         Componenten = new ArrayList<>();
@@ -124,6 +121,9 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
         jbberekenKosten = new JButton("Bereken Kosten");
         jbberekenKosten.setPreferredSize(new Dimension(200, 50));
         add(jbberekenKosten);
+        opnieuw = new JButton("Opnieuw");
+        opnieuw.addActionListener(this);
+        add(opnieuw);
 
         DefaultMutableTreeNode Ctree = new DefaultMutableTreeNode("Componenten");
 
@@ -152,7 +152,6 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
             N4.add(new DefaultMutableTreeNode(D.getNaam()));
         }
         tree = new JTree(Ctree);
-//        tree.setRootVisible(false);
         JScrollPane JSP = new JScrollPane(tree);
         JSP.setPreferredSize(new Dimension(175, 200));
         add(JSP);
@@ -163,6 +162,7 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
                 SelectComponent = selectedNode.getUserObject().toString();
             }
         });
+
         Plaats = new JButton("Plaats");
         Plaats.addActionListener(this);
         add(Panel);
@@ -207,16 +207,31 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
                 }
             }
             Ontwerp.add(SelectObject);
-            repaint();
 
+        }else if(e.getSource()==opnieuw){
+            Ontwerp.clear();
         }
+        repaint();
     }
     public void TekenOntwerp(Graphics g){
-        drawx = 150;
-        drawy = 75;
+        drawx = 340;
+        drawy = 125;
+        count = 0;
         for(Component C:Ontwerp){
-            g.drawImage(C.getAfbeelding(), drawx, drawy, null);
-            drawx = drawx+60;
+            try {
+                g.drawImage(C.getAfbeelding(), drawx, drawy, null);
+                count++;
+                if(drawy == 125){
+                    drawy = drawy - 100;
+                }else if(drawy == 25){
+                    drawx = drawx - 80;
+                    drawy = 125;
+                }if(count > 3){
+                    g.drawLine(drawx+25, drawy+125, drawx+80, drawy+125);
+                }
+            }catch(NullPointerException ex){
+                System.out.println("Geen Component geselecteerd!");
+            }
         }
     }
     public void mousePressed(MouseEvent e){

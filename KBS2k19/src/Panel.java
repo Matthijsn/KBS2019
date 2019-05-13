@@ -7,6 +7,7 @@ import java.io.*;
 public class Panel extends JPanel {
     private Applicatie Applicatietje;
     private BufferedImage cloud;
+    private double hight = 80.5;
     public Panel(Applicatie A){
         Applicatietje = A;
         setPreferredSize(new Dimension(400, 200));
@@ -19,7 +20,7 @@ public class Panel extends JPanel {
     }
     public void paint(Graphics g){
         paintComponent(g);
-        g.drawImage(cloud, 0, 75, null);
+        g.drawImage(cloud, 0, 80, null);
         Applicatietje.TekenOntwerp(g);
         repaint();
     }
