@@ -207,31 +207,42 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
                 }
             }
             Ontwerp.add(SelectObject);
+            repaint();
 
         }else if(e.getSource()==opnieuw){
             Ontwerp.clear();
         }
-        repaint();
     }
-    public void TekenOntwerp(Graphics g){
+    public void TekenOntwerp(Graphics g) {
+        if (Ontwerp.size() >=2) {
+            if(drawy==125) {
+                g.drawLine(26, 100, drawx + 80, drawy + 25);
+                g.drawLine(26, 100, drawx + 80, drawy - 75);
+            }else if (drawy==25){
+                g.drawLine(26, 100, drawx + 80, drawy + 25);
+                g.drawLine(26, 100, drawx + 80, drawy + 125);
+            }
+        }
         drawx = 340;
         drawy = 125;
         count = 0;
-        for(Component C:Ontwerp){
-            try {
+        try {
+            for (Component C : Ontwerp) {
                 g.drawImage(C.getAfbeelding(), drawx, drawy, null);
-                count++;
-                if(drawy == 125){
+
+                if (count >= 2) {
+                    g.drawLine(drawx + 50, drawy + 25, drawx + 80, drawy + 25);
+                }
+                if (drawy == 125) {
                     drawy = drawy - 100;
-                }else if(drawy == 25){
+                } else if (drawy == 25) {
                     drawx = drawx - 80;
                     drawy = 125;
-                }if(count > 3){
-                    g.drawLine(drawx+25, drawy+125, drawx+80, drawy+125);
                 }
-            }catch(NullPointerException ex){
-                System.out.println("Geen Component geselecteerd!");
-            }
+            count++;
+        }
+    }catch(NullPointerException ex){
+            System.out.println("Geen Component geselecteerd!");
         }
     }
     public void mousePressed(MouseEvent e){
