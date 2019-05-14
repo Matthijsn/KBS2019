@@ -36,6 +36,7 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
     private int drawy;
     private JButton opnieuw;
     private int count;
+    private JLabel JLComponent;
 
     public Applicatie() {
         Componenten = new ArrayList<>();
@@ -61,7 +62,7 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
         Componenten.addAll(Loadbalancers);
 
         setTitle("Infrastructuur Applicatie");
-        setSize(800, 400);
+        setSize(800, 500);
         setLayout(new FlowLayout());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -165,7 +166,13 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
 
         Plaats = new JButton("Plaats");
         Plaats.addActionListener(this);
+        Panel.addMouseListener(this);
         add(Panel);
+        JLComponent = new JLabel("Naam: " +
+                "Type: " +
+                "Beschikbaarheid: " +
+                "Kosten: ");
+        add(JLComponent);
         add(Plaats);
         back1 = new JLabel("Gewenste beschikbaarheid: (%)");
         add(back1);
@@ -211,6 +218,7 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
 
         }else if(e.getSource()==opnieuw){
             Ontwerp.clear();
+            JLComponent.setText("<html>Naam: <br/>Type: \nBeschikbaarheid: \nKosten: </html>");
         }
     }
     public void TekenOntwerp(Graphics g) {
@@ -220,7 +228,7 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
                 g.drawLine(26, 100, drawx + 80, drawy - 75);
             }else if (drawy==25){
                 g.drawLine(26, 100, drawx + 80, drawy + 25);
-                g.drawLine(26, 100, drawx + 80, drawy + 125);
+                g.drawLine(26, 100, drawx, drawy + 125);
             }
         }
         drawx = 340;
@@ -229,7 +237,7 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
         try {
             for (Component C : Ontwerp) {
                 g.drawImage(C.getAfbeelding(), drawx, drawy, null);
-
+                C.Plaats(drawx, drawy);
                 if (count >= 2) {
                     g.drawLine(drawx + 50, drawy + 25, drawx + 80, drawy + 25);
                 }
@@ -247,7 +255,15 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
     }
     public void mousePressed(MouseEvent e){
     }
-    public void mouseClicked(MouseEvent e){
+    public void mouseClicked(MouseEvent e) {
+//        System.out.println("test");
+//        System.out.println(e.getX());
+//        System.out.println(e.getY());
+        for (Component C : Ontwerp) {
+            if (C.getX() <= e.getX() && C.getX()+50 >= e.getX() && C.getY() <= e.getY() && C.getY()+50 >= e.getY()) {
+                JLComponent.setText(C.toString());
+            }
+        }
     }
     public void mouseReleased(MouseEvent e){
     }

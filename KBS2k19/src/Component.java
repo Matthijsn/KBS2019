@@ -8,6 +8,8 @@ public abstract class Component {
     private String type;
     private double beschikbaarheid;
     private int kosten;
+    private int X;
+    private int Y;
     private String Return;
     private BufferedImage DBServer, Webserver, Firewall, Loadbalancer;
     private BufferedImage Image;
@@ -19,15 +21,6 @@ public abstract class Component {
         this.kosten = kosten;
     }
 
-    @Override
-    public String toString() {
-        return "Component{" +
-                "naam='" + naam + '\'' +
-                ", type='" + type + '\'' +
-                ", beschikbaarheid=" + beschikbaarheid +
-                ", kosten=" + kosten +
-                '}';
-    }
 
 
 
@@ -66,8 +59,18 @@ public abstract class Component {
         }
         return Image;
     }
+    public void Plaats(int x, int y){
+        this.X = x;
+        this.Y = y;
+    }
 
+    public int getX() {
+        return X;
+    }
 
+    public int getY() {
+        return Y;
+    }
 
     public double getBeschikbaarheid() {
         return beschikbaarheid;
@@ -75,5 +78,17 @@ public abstract class Component {
 
     public int getKosten() {
         return kosten;
+    }
+
+    @Override
+    public String toString() {
+        return "Component{" +
+                "naam='" + naam + '\'' +
+                ", type='" + type + '\'' +
+                ", beschikbaarheid=" + beschikbaarheid +
+                ", kosten=" + kosten +
+                ", X=" + X +
+                ", Y=" + Y +
+                '}';
     }
 }
