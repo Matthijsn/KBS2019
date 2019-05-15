@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.Component;
 import java.util.ArrayList;
 public class Ontwerp {
     private ArrayList<Component> Componenten;
@@ -10,4 +11,5 @@ public class Ontwerp {
     }
     public void tekenOntwerp(Graphics g){
     }
+
 }

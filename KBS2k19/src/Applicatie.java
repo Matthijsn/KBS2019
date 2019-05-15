@@ -12,10 +12,8 @@ import java.util.ArrayList;
 public class Applicatie extends JFrame implements ActionListener, MouseListener {
     private final JLabel back1;
     private final JButton back3;
-    private JButton jbbestand;
     private JLabel jlkosten;
     private JLabel jlbeschikbaarheid;
-    private JButton jbberekenKosten;
     private JButton Plaats;
     private ArrayList<Component> Componenten;
     private ArrayList<DBServer> DBServers;
@@ -36,6 +34,10 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
     private int drawy;
     private JButton opnieuw;
     private int count;
+    private JLabel jlkostenontwerp;
+    private JLabel jlbeschikbaarheidontwerp;
+    private int totaalkosten = 0;
+    private double beschikbaarheid = 100;
 
     public Applicatie() {
         Componenten = new ArrayList<>();
@@ -98,29 +100,22 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
         BOpen.addActionListener(this);
         Bestand.add(BOpen);
 
-        //bestand button
-        //jbbestand = new JButton("Bestand");
-        //add(jbbestand);
-        //jbbestand.addActionListener(this);
-        //jbbestand.setPreferredSize(new Dimension(150, 50));
-        //jbbestand.setAlignmentX(LEFT_ALIGNMENT);
-
         jlkosten = new JLabel("Kosten: ");
         add(jlkosten);
-        jlkosten.setPreferredSize(new Dimension(200, 50));
+        jlkosten.setPreferredSize(new Dimension(80, 50));
+
+        jlkostenontwerp = new JLabel("00,00");
+        add(jlkostenontwerp);
+        jlkostenontwerp.setPreferredSize(new Dimension(170,50));
 
         jlbeschikbaarheid = new JLabel("Beschikbaarheid: ");
         add(jlbeschikbaarheid);
-        jlbeschikbaarheid.setPreferredSize(new Dimension(200, 50));
-        JLabel jLbeschikbaarheid = new JLabel("");
-        add(jlbeschikbaarheid);
-        add(jLbeschikbaarheid);
-        jLbeschikbaarheid.setPreferredSize(new Dimension(80, 50));
         jlbeschikbaarheid.setPreferredSize(new Dimension(120, 50));
 
-        jbberekenKosten = new JButton("Bereken Kosten");
-        jbberekenKosten.setPreferredSize(new Dimension(200, 50));
-        add(jbberekenKosten);
+        jlbeschikbaarheidontwerp = new JLabel("00.00%");
+        add(jlbeschikbaarheidontwerp);
+        jlbeschikbaarheidontwerp.setPreferredSize(new Dimension(170, 50));
+
         opnieuw = new JButton("Opnieuw");
         opnieuw.addActionListener(this);
         add(opnieuw);
@@ -195,6 +190,7 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
 //            }
 //        };
 //        jbberekenKosten.addMouseListener(beschikbaarheidListener);
+
         setVisible(true);
 
     }
@@ -205,11 +201,50 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
                 if(C.getNaam()==SelectComponent){
                     SelectObject=C;
                 }
+
             }
             Ontwerp.add(SelectObject);
+            for(Component C:Ontwerp) {
+                if (C.getType() == "Firewall") {
+                    for (Component CO : Ontwerp) {
+                        totaalkosten = totaalkosten + CO.getKosten();
+                        beschikbaarheid = beschikbaarheid * CO.getBeschikbaarheid() / 100;
+                        jlkostenontwerp.setText(String.valueOf(totaalkosten));
+                        jlbeschikbaarheidontwerp.setText(String.valueOf(beschikbaarheid));
+                    }
+                }
+                else if(C.getType() == "Loadbalancer"){
+                    for (Component CO : Ontwerp) {
+                        totaalkosten = totaalkosten + CO.getKosten();
+                        beschikbaarheid = beschikbaarheid * CO.getBeschikbaarheid() / 100;
+                        jlkostenontwerp.setText(String.valueOf(totaalkosten));
+                        jlbeschikbaarheidontwerp.setText(String.valueOf(beschikbaarheid));
+                    }
+                }
+                else{
+                    for (Component CO : Ontwerp) {
+                        totaalkosten = totaalkosten + SelectObject.getKosten();
+                        beschikbaarheid = beschikbaarheid * CO.getBeschikbaarheid() / 100;
+                        jlkostenontwerp.setText(String.valueOf(totaalkosten));
+                        jlbeschikbaarheidontwerp.setText(String.valueOf(beschikbaarheid));
+
+                    }
+
+                }totaalkosten = 0;
+            }
+
+
+
+
+
 
         }else if(e.getSource()==opnieuw){
             Ontwerp.clear();
+            jlkostenontwerp.setText("00.00");
+            jlbeschikbaarheidontwerp.setText("00.00");
+            beschikbaarheid = 100;
+
+
         }
         repaint();
     }
@@ -217,20 +252,28 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
         drawx = 340;
         drawy = 125;
         count = 0;
+        boolean i = true;
         for(Component C:Ontwerp){
+            while (i == true){
             try {
                 g.drawImage(C.getAfbeelding(), drawx, drawy, null);
                 count++;
                 if(drawy == 125){
                     drawy = drawy - 100;
+                    break;
                 }else if(drawy == 25){
                     drawx = drawx - 80;
                     drawy = 125;
+                    break;
                 }if(count > 3){
                     g.drawLine(drawx+25, drawy+125, drawx+80, drawy+125);
+                    break;
                 }
             }catch(NullPointerException ex){
-                System.out.println("Geen Component geselecteerd!");
+                JOptionPane.showMessageDialog(this,"Geen Component Geselecteerd",
+                        "Geen component",JOptionPane.WARNING_MESSAGE);
+                Ontwerp.clear();
+                i = false;}
             }
         }
     }

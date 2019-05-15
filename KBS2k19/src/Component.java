@@ -30,24 +30,25 @@ public abstract class Component {
     }
 
 
-
     public String getNaam() {
         return naam;
     }
-    public String getType(){
-        if(this instanceof DBServer){
+
+    public String getType() {
+        if (this instanceof DBServer) {
             Return = "DBServer";
-        }else if(this instanceof  Webserver){
+        } else if (this instanceof Webserver) {
             Return = "Webserver";
-        }else if(this instanceof Firewall){
+        } else if (this instanceof Firewall) {
             Return = "Firewall";
-        }else if(this instanceof Loadbalancer){
+        } else if (this instanceof Loadbalancer) {
             Return = "Loadbalancer";
         }
         return Return;
     }
-    public BufferedImage getAfbeelding(){
-        try{
+
+    public BufferedImage getAfbeelding() {
+        try {
             DBServer = ImageIO.read(new File("src/Database.png"));
             Webserver = ImageIO.read(new File("src/Webserver.png"));
             Firewall = ImageIO.read(new File("src/Firewall.png"));
@@ -55,18 +56,17 @@ public abstract class Component {
         } catch (IOException ex) {
             System.out.println("Plaatje niet gevonden.");
         }
-        if(this instanceof DBServer){
+        if (this instanceof DBServer) {
             Image = DBServer;
-        }else if(this instanceof  Webserver){
-            Image =  Webserver;
-        }else if(this instanceof Firewall){
+        } else if (this instanceof Webserver) {
+            Image = Webserver;
+        } else if (this instanceof Firewall) {
             Image = Firewall;
-        }else if(this instanceof Loadbalancer){
+        } else if (this instanceof Loadbalancer) {
             Image = Loadbalancer;
         }
         return Image;
     }
-
 
 
     public double getBeschikbaarheid() {
