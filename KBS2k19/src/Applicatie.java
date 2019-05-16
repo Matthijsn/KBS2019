@@ -10,8 +10,8 @@ import java.awt.event.*;
 import java.util.ArrayList;
 
 public class Applicatie extends JFrame implements ActionListener, MouseListener {
-    private final JLabel back1;
-    private final JButton back3;
+    private JLabel back1;
+    private JButton back3;
     private JButton jbbestand;
     private JLabel jlkosten;
     private JLabel jlbeschikbaarheid;
@@ -37,6 +37,10 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
     private JButton opnieuw;
     private int count;
     private JLabel JLComponent;
+    private JButton JBKoppelen;
+    private boolean BKoppelen;
+    private Component SelectedComponent;
+    private Component Component1;
 
     public Applicatie() {
         Componenten = new ArrayList<>();
@@ -82,7 +86,6 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
 
             public void menuCanceled(MenuEvent e) {
                 System.out.println("canceled bestand");
-
             }
         });
         menuBar.add(Bestand);
@@ -161,6 +164,14 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
             public void valueChanged(TreeSelectionEvent e) {
                 DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
                 SelectComponent = selectedNode.getUserObject().toString();
+                for(Component C:Componenten){
+                    if(C.getNaam()==SelectComponent){
+                        SelectObject=C;
+                        JLComponent.setText("<html>Naam: "+C.getNaam()+"<br/>Type:"+C.getType()+"<br/>Beschikbaarheid:"+C.getBeschikbaarheid()+"%<br/> Kosten:"+C.getKosten()+" </html>");
+
+                    }
+                }
+
             }
         });
 
@@ -168,11 +179,15 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
         Plaats.addActionListener(this);
         Panel.addMouseListener(this);
         add(Panel);
-        JLComponent = new JLabel("Naam: " +
-                "Type: " +
-                "Beschikbaarheid: " +
-                "Kosten: ");
+        JLComponent = new JLabel("<html>Naam: <br/>" +
+                "Type: <br/>" +
+                "Beschikbaarheid:00.00%<br/>" +
+                "Kosten: </html>");
         add(JLComponent);
+        JBKoppelen = new JButton("Koppelen");
+        JBKoppelen.addActionListener(this);
+        BKoppelen = false;
+        add(JBKoppelen);
         add(Plaats);
         back1 = new JLabel("Gewenste beschikbaarheid: (%)");
         add(back1);
@@ -218,7 +233,19 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
 
         }else if(e.getSource()==opnieuw){
             Ontwerp.clear();
-            JLComponent.setText("<html>Naam: <br/>Type: \nBeschikbaarheid: \nKosten: </html>");
+            JLComponent.setText("<html>Naam: <br/>" +
+                    "Type: <br/>" +
+                    "Beschikbaarheid:00.00%<br/>" +
+                    "Kosten: </html>");
+        }
+        if(e.getSource()==JBKoppelen){
+            if(!BKoppelen) {
+                BKoppelen = true;
+                Component1 = SelectedComponent;
+                System.out.println(Component1);
+            }else{
+                System.out.println(SelectedComponent);
+            }
         }
     }
     public void TekenOntwerp(Graphics g) {
@@ -247,13 +274,13 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
                     drawx = drawx - 80;
                     drawy = 125;
                 }
+//                g.drawString(C.getNaam(), C.getX(), C.getY()+60);
             count++;
         }
+
     }catch(NullPointerException ex){
             System.out.println("Geen Component geselecteerd!");
         }
-    }
-    public void mousePressed(MouseEvent e){
     }
     public void mouseClicked(MouseEvent e) {
 //        System.out.println("test");
@@ -261,9 +288,12 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
 //        System.out.println(e.getY());
         for (Component C : Ontwerp) {
             if (C.getX() <= e.getX() && C.getX()+50 >= e.getX() && C.getY() <= e.getY() && C.getY()+50 >= e.getY()) {
-                JLComponent.setText(C.toString());
+                JLComponent.setText("<html>Naam: "+C.getNaam()+"<br/>Type:"+C.getType()+"<br/>Beschikbaarheid:"+C.getBeschikbaarheid()+"%<br/> Kosten:"+C.getKosten()+" </html>");
+                SelectedComponent = C;
             }
         }
+    }
+    public void mousePressed(MouseEvent e){
     }
     public void mouseReleased(MouseEvent e){
     }

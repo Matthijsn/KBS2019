@@ -7,7 +7,6 @@ import java.io.*;
 public class Panel extends JPanel {
     private Applicatie Applicatietje;
     private BufferedImage cloud;
-    private double hight = 80.5;
     public Panel(Applicatie A){
         Applicatietje = A;
         setPreferredSize(new Dimension(400, 200));
