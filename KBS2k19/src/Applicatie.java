@@ -12,11 +12,11 @@ import java.util.ArrayList;
 public class Applicatie extends JFrame implements ActionListener, MouseListener {
     private JLabel back1;
     private JButton back3;
-    private JButton jbbestand;
     private JLabel jlkosten;
     private JLabel jlbeschikbaarheid;
     private JButton jbberekenKosten;
     private JButton Plaats;
+    private ArrayList<Verbinding> Verbindingen;
     private ArrayList<Component> Componenten;
     private ArrayList<DBServer> DBServers;
     private ArrayList<Webserver> Webservers;
@@ -49,6 +49,7 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
         Firewalls = new ArrayList<>();
         Loadbalancers = new ArrayList<>();
         Ontwerp = new ArrayList<>();
+        Verbindingen = new ArrayList<>();
         DBServer HAL9001DB = new DBServer("HAL9001DB ", 90, 5100);
         DBServers.add(HAL9001DB);
         DBServer HAL9002DB = new DBServer("HAL9002DB", 95, 7700);
@@ -98,16 +99,10 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
         BSave.addActionListener(this);
         Bestand.add(BSave);
 
-        BOpen = new JMenuItem("open");
+        BOpen = new JMenuItem("Open");
         BOpen.addActionListener(this);
         Bestand.add(BOpen);
 
-        //bestand button
-        //jbbestand = new JButton("Bestand");
-        //add(jbbestand);
-        //jbbestand.addActionListener(this);
-        //jbbestand.setPreferredSize(new Dimension(150, 50));
-        //jbbestand.setAlignmentX(LEFT_ALIGNMENT);
 
         jlkosten = new JLabel("Kosten: ");
         add(jlkosten);
@@ -233,6 +228,7 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
 
         }else if(e.getSource()==opnieuw){
             Ontwerp.clear();
+            Verbindingen.clear();
             JLComponent.setText("<html>Naam: <br/>" +
                     "Type: <br/>" +
                     "Beschikbaarheid:00.00%<br/>" +
@@ -240,11 +236,15 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
         }
         if(e.getSource()==JBKoppelen){
             if(!BKoppelen) {
-                BKoppelen = true;
-                Component1 = SelectedComponent;
-                System.out.println(Component1);
+                    BKoppelen = true;
+                    Component1 = SelectedComponent;
+                    System.out.println(Component1);
             }else{
                 System.out.println(SelectedComponent);
+                BKoppelen = false;
+                Verbinding V1 = new Verbinding(Component1, SelectedComponent);
+                Verbindingen.add(V1);
+                repaint();
             }
         }
     }
@@ -266,7 +266,7 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
                 g.drawImage(C.getAfbeelding(), drawx, drawy, null);
                 C.Plaats(drawx, drawy);
                 if (count >= 2) {
-                    g.drawLine(drawx + 50, drawy + 25, drawx + 80, drawy + 25);
+//                    g.drawLine(drawx + 50, drawy + 25, drawx + 80, drawy + 25);
                 }
                 if (drawy == 125) {
                     drawy = drawy - 100;
@@ -276,6 +276,9 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
                 }
 //                g.drawString(C.getNaam(), C.getX(), C.getY()+60);
             count++;
+                    for (Verbinding V : Verbindingen) {
+                        g.drawLine(V.getC1().getX(), V.getC1().getY(), V.getC2().getX(), V.getC2().getY());
+                }
         }
 
     }catch(NullPointerException ex){
@@ -283,9 +286,6 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
         }
     }
     public void mouseClicked(MouseEvent e) {
-//        System.out.println("test");
-//        System.out.println(e.getX());
-//        System.out.println(e.getY());
         for (Component C : Ontwerp) {
             if (C.getX() <= e.getX() && C.getX()+50 >= e.getX() && C.getY() <= e.getY() && C.getY()+50 >= e.getY()) {
                 JLComponent.setText("<html>Naam: "+C.getNaam()+"<br/>Type:"+C.getType()+"<br/>Beschikbaarheid:"+C.getBeschikbaarheid()+"%<br/> Kosten:"+C.getKosten()+" </html>");
