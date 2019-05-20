@@ -10,12 +10,12 @@ import java.awt.event.*;
 import java.util.ArrayList;
 
 public class Applicatie extends JFrame implements ActionListener, MouseListener {
-    private final JLabel back1;
-    private final JTextField back2;
-    private final JButton back3;
+    private JLabel back1;
+    private JButton back3;
     private JLabel jlkosten;
     private JLabel jlbeschikbaarheid;
     private JButton Plaats;
+    private ArrayList<Verbinding> Verbindingen;
     private ArrayList<Component> Componenten;
     private ArrayList<DBServer> DBServers;
     private ArrayList<Webserver> Webservers;
@@ -46,6 +46,10 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
     private String bestfirewall;
     private String bestconfig;
     private JLabel JLbestconfig;
+    private JButton JBKoppelen;
+    private boolean BKoppelen;
+    private Component SelectedComponent;
+    private Component Component1;
 
     public Applicatie() {
         Componenten = new ArrayList<>();
@@ -54,6 +58,7 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
         Firewalls = new ArrayList<>();
         Loadbalancers = new ArrayList<>();
         Ontwerp = new ArrayList<>();
+        Verbindingen = new ArrayList<>();
         DBServer HAL9001DB = new DBServer("HAL9001DB ", 90, 5100);
         DBServers.add(HAL9001DB);
         DBServer HAL9002DB = new DBServer("HAL9002DB", 95, 7700);
@@ -91,7 +96,6 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
 
             public void menuCanceled(MenuEvent e) {
                 System.out.println("canceled bestand");
-
             }
         });
         menuBar.add(Bestand);
@@ -104,7 +108,7 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
         BSave.addActionListener(this);
         Bestand.add(BSave);
 
-        BOpen = new JMenuItem("open");
+        BOpen = new JMenuItem("Open");
         BOpen.addActionListener(this);
         Bestand.add(BOpen);
 
@@ -163,6 +167,14 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
             public void valueChanged(TreeSelectionEvent e) {
                 DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
                 SelectComponent = selectedNode.getUserObject().toString();
+                for(Component C:Componenten){
+                    if(C.getNaam()==SelectComponent){
+                        SelectObject=C;
+                        JLComponent.setText("<html>Naam: "+C.getNaam()+"<br/>Type:"+C.getType()+"<br/>Beschikbaarheid:"+C.getBeschikbaarheid()+"%<br/> Kosten:"+C.getKosten()+" </html>");
+
+                    }
+                }
+
             }
         });
 
@@ -170,15 +182,19 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
         Plaats.addActionListener(this);
         Panel.addMouseListener(this);
         add(Panel);
-        JLComponent = new JLabel("Naam: " +
-                "Type: " +
-                "Beschikbaarheid: " +
-                "Kosten: ");
+        JLComponent = new JLabel("<html>Naam: <br/>" +
+                "Type: <br/>" +
+                "Beschikbaarheid:00.00%<br/>" +
+                "Kosten: </html>");
         add(JLComponent);
+        JBKoppelen = new JButton("Koppelen");
+        JBKoppelen.addActionListener(this);
+        BKoppelen = false;
+        add(JBKoppelen);
         add(Plaats);
         back1 = new JLabel("Gewenste beschikbaarheid: (%)");
         add(back1);
-        back2 = new JTextField("");
+        JTextField back2 = new JTextField("");
         add(back2);
         back2.setPreferredSize(new Dimension(80, 50));
         back1.setPreferredSize(new Dimension(180, 50));
@@ -258,10 +274,28 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
 
         }else if(e.getSource()==opnieuw){
             Ontwerp.clear();
+            Verbindingen.clear();
+            JLComponent.setText("<html>Naam: <br/>" +
+                    "Type: <br/>" +
+                    "Beschikbaarheid:00.00%<br/>" +
+                    "Kosten: </html>");
             JLbestconfig.setText("");
-            JLComponent.setText("<html>Naam: <br/>Type: \nBeschikbaarheid: \nKosten: </html>");
             jlkostenontwerp.setText("00.00");
             jlbeschikbaarheidontwerp.setText("00.00");
+        }
+        if(e.getSource()==JBKoppelen){
+            if(!BKoppelen) {
+                    BKoppelen = true;
+                    Component1 = SelectedComponent;
+                    System.out.println(Component1);
+            }else{
+                System.out.println(SelectedComponent);
+                BKoppelen = false;
+                Verbinding V1 = new Verbinding(Component1, SelectedComponent);
+                Verbindingen.add(V1);
+                repaint();
+            }
+
         }
     }
     public void TekenOntwerp(Graphics g) {
@@ -277,38 +311,41 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
         drawx = 340;
         drawy = 125;
         count = 0;
+        try {
             for (Component C : Ontwerp) {
-                    try {
-                        g.drawImage(C.getAfbeelding(), drawx, drawy, null);
-                        C.Plaats(drawx, drawy);
-                        if (count >= 2) {
-                            g.drawLine(drawx + 50, drawy + 25, drawx + 80, drawy + 25);
-                        }
-                        if (drawy == 125) {
-                            drawy = drawy - 100;
-                        } else if (drawy == 25) {
-                            drawx = drawx - 80;
-                            drawy = 125;
-                        }
-                        count++;
-                }catch(NullPointerException ex){
-                    JOptionPane.showMessageDialog(this, "Geen Component Geselecteerd",
-                            "Geen component", JOptionPane.WARNING_MESSAGE);
-                    Ontwerp.clear();
+                g.drawImage(C.getAfbeelding(), drawx, drawy, null);
+                C.Plaats(drawx, drawy);
+                if (count >= 2) {
+//                    g.drawLine(drawx + 50, drawy + 25, drawx + 80, drawy + 25);
+                }
+                if (drawy == 125) {
+                    drawy = drawy - 100;
+                } else if (drawy == 25) {
+                    drawx = drawx - 80;
+                    drawy = 125;
+                }
+//                g.drawString(C.getNaam(), C.getX(), C.getY()+60);
+            count++;
+                    for (Verbinding V : Verbindingen) {
+                        g.drawLine(V.getC1().getX(), V.getC1().getY(), V.getC2().getX(), V.getC2().getY());
+                }
+        }
+
+        }catch(NullPointerException ex){
+            JOptionPane.showMessageDialog(this, "Geen Component Geselecteerd",
+                    "Geen component", JOptionPane.WARNING_MESSAGE);
+            Ontwerp.clear();
+        }
+    }
+    public void mouseClicked(MouseEvent e) {
+        for (Component C : Ontwerp) {
+            if (C.getX() <= e.getX() && C.getX()+50 >= e.getX() && C.getY() <= e.getY() && C.getY()+50 >= e.getY()) {
+                JLComponent.setText("<html>Naam: "+C.getNaam()+"<br/>Type:"+C.getType()+"<br/>Beschikbaarheid:"+C.getBeschikbaarheid()+"%<br/> Kosten:"+C.getKosten()+" </html>");
+                SelectedComponent = C;
             }
         }
     }
     public void mousePressed(MouseEvent e){
-    }
-    public void mouseClicked(MouseEvent e) {
-//        System.out.println("test");
-//        System.out.println(e.getX());
-//        System.out.println(e.getY());
-        for (Component C : Ontwerp) {
-            if (C.getX() <= e.getX() && C.getX()+50 >= e.getX() && C.getY() <= e.getY() && C.getY()+50 >= e.getY()) {
-                JLComponent.setText(C.toString());
-            }
-        }
     }
     public void mouseReleased(MouseEvent e){
     }
@@ -394,7 +431,6 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
                     total = total + price;
                 }
                 break;
-
         }
         JLbestconfig.setText(bestwebserver + ", " + bestdbserver + ", " + bestloadbalancer + ", " +
                 bestfirewall + ", " + bestconfig);

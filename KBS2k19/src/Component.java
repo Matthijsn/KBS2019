@@ -8,8 +8,8 @@ public abstract class Component {
     private String type;
     private double beschikbaarheid;
     private int kosten;
-    private int X;
-    private int Y;
+    private int X = 0;
+    private int Y = 0;
     private String Return;
     private BufferedImage DBServer, Webserver, Firewall, Loadbalancer;
     private BufferedImage Image;
