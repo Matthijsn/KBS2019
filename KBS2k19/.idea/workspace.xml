@@ -7,16 +7,9 @@
       <change beforePath="$PROJECT_DIR$/out/production/KBS2k19/Applicatie$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/KBS2k19/Applicatie$2.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/KBS2k19/Applicatie$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/KBS2k19/Applicatie$3.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/KBS2k19/Applicatie.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/KBS2k19/Applicatie.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/KBS2k19/ApplicatieTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/KBS2k19/ApplicatieTest.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/KBS2k19/Component.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/KBS2k19/Component.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/KBS2k19/DBServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/KBS2k19/DBServer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/KBS2k19/Firewall.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/KBS2k19/Firewall.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/KBS2k19/Loadbalancer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/KBS2k19/Loadbalancer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/KBS2k19/Panel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/KBS2k19/Panel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/KBS2k19/Webserver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/KBS2k19/Webserver.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Applicatie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Applicatie.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Component.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Component.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Ontwerp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Ontwerp.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -48,15 +41,19 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Applicatie.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="612">
-              <caret line="240" column="14" selection-start-line="240" selection-start-column="14" selection-end-line="240" selection-end-column="14" />
+            <state relative-caret-position="459">
+              <caret line="239" column="50" lean-forward="true" selection-start-line="239" selection-start-column="50" selection-end-line="239" selection-end-column="50" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#18383#18384#0" expanded="true" />
-                <element signature="e#18464#18465#0" expanded="true" />
-                <element signature="e#18548#18549#0" expanded="true" />
-                <element signature="e#18629#18630#0" expanded="true" />
-                <element signature="e#18722#18723#0" expanded="true" />
+                <element signature="e#2869#2870#0" expanded="true" />
+                <element signature="e#2939#2940#0" expanded="true" />
+                <element signature="e#6721#6902#0" expanded="true" />
+                <element signature="e#6901#6902#0" expanded="true" />
+                <element signature="e#20741#20742#0" expanded="true" />
+                <element signature="e#20822#20823#0" expanded="true" />
+                <element signature="e#20906#20907#0" expanded="true" />
+                <element signature="e#20987#20988#0" expanded="true" />
+                <element signature="e#21080#21081#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -65,16 +62,20 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Component.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="47" column="5" lean-forward="true" selection-start-line="47" selection-start-column="5" selection-end-line="47" selection-end-column="5" />
+            <state relative-caret-position="323">
+              <caret line="41" column="5" lean-forward="true" selection-start-line="41" selection-start-column="5" selection-end-line="41" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#961#962#0" expanded="true" />
-                <element signature="e#988#989#0" expanded="true" />
-                <element signature="e#2212#2213#0" expanded="true" />
-                <element signature="e#2250#2251#0" expanded="true" />
-                <element signature="e#2280#2281#0" expanded="true" />
-                <element signature="e#2309#2310#0" expanded="true" />
+                <element signature="e#684#685#0" expanded="true" />
+                <element signature="e#711#712#0" expanded="true" />
+                <element signature="e#2001#2002#0" expanded="true" />
+                <element signature="e#2025#2026#0" expanded="true" />
+                <element signature="e#2050#2051#0" expanded="true" />
+                <element signature="e#2074#2075#0" expanded="true" />
+                <element signature="e#2116#2117#0" expanded="true" />
+                <element signature="e#2154#2155#0" expanded="true" />
+                <element signature="e#2184#2185#0" expanded="true" />
+                <element signature="e#2213#2214#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -107,21 +108,9 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>DbServer</find>
-      <find>Webserver</find>
-      <find>DB</find>
-      <find>set</find>
-      <find>jLI</find>
-      <find>frame.</find>
-      <find>setLeaficon</find>
-      <find>JList</find>
-      <find>jtextfie</find>
-      <find>Tx</find>
-      <find>jbbestand</find>
       <find>Text</find>
       <find>Textfield</find>
       <find>dbserver</find>
-      <find>back2</find>
       <find>back3</find>
       <find>array4</find>
       <find>getWebservers</find>
@@ -135,6 +124,20 @@
       <find>selectcomp</find>
       <find>selectcom</find>
       <find>c.get</find>
+      <find>plaats</find>
+      <find>bestconf</find>
+      <find>jlbes</find>
+      <find>jlbest</find>
+      <find>best</find>
+      <find>-1</find>
+      <find>back2</find>
+      <find>bestweb</find>
+      <find>opnie</find>
+      <find>back1</find>
+      <find>system</find>
+      <find>backli</find>
+      <find>html</find>
+      <find>percentages</find>
     </findStrings>
     <replaceStrings>
       <replace>back1</replace>
@@ -258,12 +261,12 @@
       <workItem from="1557314666724" duration="9676000" />
       <workItem from="1557752401791" duration="61000" />
       <workItem from="1557752544239" duration="619000" />
-      <workItem from="1557754331464" duration="20322000" />
+      <workItem from="1557754331464" duration="39681000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="52704000" />
+    <option name="totallyTimeSpent" value="72063000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
@@ -413,33 +416,55 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://C:/Program Files (x86)/Java/jdk1.8.0_201/src.zip!/java/lang/Double.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="178">
+          <caret line="537" column="31" selection-start-line="537" selection-start-column="31" selection-end-line="537" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files (x86)/Java/jdk1.8.0_201/jre/lib/rt.jar!/sun/misc/FloatingDecimal.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="178">
+          <caret line="69" selection-start-line="69" selection-end-line="69" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Component.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="47" column="5" lean-forward="true" selection-start-line="47" selection-start-column="5" selection-end-line="47" selection-end-column="5" />
+        <state relative-caret-position="323">
+          <caret line="41" column="5" lean-forward="true" selection-start-line="41" selection-start-column="5" selection-end-line="41" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#961#962#0" expanded="true" />
-            <element signature="e#988#989#0" expanded="true" />
-            <element signature="e#2212#2213#0" expanded="true" />
-            <element signature="e#2250#2251#0" expanded="true" />
-            <element signature="e#2280#2281#0" expanded="true" />
-            <element signature="e#2309#2310#0" expanded="true" />
+            <element signature="e#684#685#0" expanded="true" />
+            <element signature="e#711#712#0" expanded="true" />
+            <element signature="e#2001#2002#0" expanded="true" />
+            <element signature="e#2025#2026#0" expanded="true" />
+            <element signature="e#2050#2051#0" expanded="true" />
+            <element signature="e#2074#2075#0" expanded="true" />
+            <element signature="e#2116#2117#0" expanded="true" />
+            <element signature="e#2154#2155#0" expanded="true" />
+            <element signature="e#2184#2185#0" expanded="true" />
+            <element signature="e#2213#2214#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Applicatie.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="612">
-          <caret line="240" column="14" selection-start-line="240" selection-start-column="14" selection-end-line="240" selection-end-column="14" />
+        <state relative-caret-position="459">
+          <caret line="239" column="50" lean-forward="true" selection-start-line="239" selection-start-column="50" selection-end-line="239" selection-end-column="50" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#18383#18384#0" expanded="true" />
-            <element signature="e#18464#18465#0" expanded="true" />
-            <element signature="e#18548#18549#0" expanded="true" />
-            <element signature="e#18629#18630#0" expanded="true" />
-            <element signature="e#18722#18723#0" expanded="true" />
+            <element signature="e#2869#2870#0" expanded="true" />
+            <element signature="e#2939#2940#0" expanded="true" />
+            <element signature="e#6721#6902#0" expanded="true" />
+            <element signature="e#6901#6902#0" expanded="true" />
+            <element signature="e#20741#20742#0" expanded="true" />
+            <element signature="e#20822#20823#0" expanded="true" />
+            <element signature="e#20906#20907#0" expanded="true" />
+            <element signature="e#20987#20988#0" expanded="true" />
+            <element signature="e#21080#21081#0" expanded="true" />
           </folding>
         </state>
       </provider>

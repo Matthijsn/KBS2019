@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 public class Applicatie extends JFrame implements ActionListener, MouseListener {
     private final JLabel back1;
+    private final JTextField back2;
     private final JButton back3;
     private JLabel jlkosten;
     private JLabel jlbeschikbaarheid;
@@ -38,6 +39,13 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
     private JLabel jlbeschikbaarheidontwerp;
     private int totaalkosten = 0;
     private double beschikbaarheid = 100;
+    private JLabel JLComponent;
+    private String bestwebserver;
+    private String bestdbserver;
+    private String bestloadbalancer;
+    private String bestfirewall;
+    private String bestconfig;
+    private JLabel JLbestconfig;
 
     public Applicatie() {
         Componenten = new ArrayList<>();
@@ -63,7 +71,7 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
         Componenten.addAll(Loadbalancers);
 
         setTitle("Infrastructuur Applicatie");
-        setSize(800, 400);
+        setSize(800, 500);
         setLayout(new FlowLayout());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -160,11 +168,17 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
 
         Plaats = new JButton("Plaats");
         Plaats.addActionListener(this);
+        Panel.addMouseListener(this);
         add(Panel);
+        JLComponent = new JLabel("Naam: " +
+                "Type: " +
+                "Beschikbaarheid: " +
+                "Kosten: ");
+        add(JLComponent);
         add(Plaats);
         back1 = new JLabel("Gewenste beschikbaarheid: (%)");
         add(back1);
-        JTextField back2 = new JTextField("");
+        back2 = new JTextField("");
         add(back2);
         back2.setPreferredSize(new Dimension(80, 50));
         back1.setPreferredSize(new Dimension(180, 50));
@@ -191,6 +205,9 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
 //        };
 //        jbberekenKosten.addMouseListener(beschikbaarheidListener);
 
+        JLbestconfig = new JLabel("");
+        add(JLbestconfig);
+
         setVisible(true);
 
     }
@@ -200,86 +217,98 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
             for(Component C:Componenten){
                 if(C.getNaam()==SelectComponent){
                     SelectObject=C;
-                }
-
+                                    }
             }
             Ontwerp.add(SelectObject);
             for(Component C:Ontwerp) {
                 if (C.getType() == "Firewall") {
                     for (Component CO : Ontwerp) {
                         totaalkosten = totaalkosten + CO.getKosten();
-                        beschikbaarheid = beschikbaarheid * CO.getBeschikbaarheid() / 100;
-                        jlkostenontwerp.setText(String.valueOf(totaalkosten));
-                        jlbeschikbaarheidontwerp.setText(String.valueOf(beschikbaarheid));
+                        //andere beschikbaarheid berekening omdat het een firewall is
+                        beschikbaarheid = beschikbaarheid * (1-(1-CO.getBeschikbaarheid())*(1-CO.getBeschikbaarheid())) / 100;
                     }
                 }
                 else if(C.getType() == "Loadbalancer"){
                     for (Component CO : Ontwerp) {
                         totaalkosten = totaalkosten + CO.getKosten();
-                        beschikbaarheid = beschikbaarheid * CO.getBeschikbaarheid() / 100;
-                        jlkostenontwerp.setText(String.valueOf(totaalkosten));
-                        jlbeschikbaarheidontwerp.setText(String.valueOf(beschikbaarheid));
+                        //andere beschikbaarheid berekening omdat het een loadbalancer is
+                        beschikbaarheid = (((1 - (1 - (CO.getBeschikbaarheid() / 100)) * (1 - (CO.getBeschikbaarheid() / 100))) * 100));
+                        //beschikbaarheid = beschikbaarheid * CO.getBeschikbaarheid() / 100;
                     }
                 }
-                else{
+                else if(C.getType() == "Webserver"){
                     for (Component CO : Ontwerp) {
                         totaalkosten = totaalkosten + SelectObject.getKosten();
                         beschikbaarheid = beschikbaarheid * CO.getBeschikbaarheid() / 100;
-                        jlkostenontwerp.setText(String.valueOf(totaalkosten));
-                        jlbeschikbaarheidontwerp.setText(String.valueOf(beschikbaarheid));
-
                     }
-
-                }totaalkosten = 0;
+                }
+                else if(C.getType() == "DBServer"){
+                    for (Component CO : Ontwerp) {
+                        totaalkosten = totaalkosten + SelectObject.getKosten();
+                        beschikbaarheid = beschikbaarheid * CO.getBeschikbaarheid() / 100;
+                    }
+                }
+                jlbeschikbaarheidontwerp.setText(String.valueOf(beschikbaarheid));
+                jlkostenontwerp.setText(String.valueOf(totaalkosten));
+                totaalkosten = 0;
+                beschikbaarheid =100;
             }
 
-
-
-
-
+            repaint();
 
         }else if(e.getSource()==opnieuw){
             Ontwerp.clear();
+            JLbestconfig.setText("");
+            JLComponent.setText("<html>Naam: <br/>Type: \nBeschikbaarheid: \nKosten: </html>");
             jlkostenontwerp.setText("00.00");
             jlbeschikbaarheidontwerp.setText("00.00");
-            beschikbaarheid = 100;
-
-
         }
-        repaint();
     }
-    public void TekenOntwerp(Graphics g){
+    public void TekenOntwerp(Graphics g) {
+        if (Ontwerp.size() >=2) {
+            if(drawy==125) {
+                g.drawLine(26, 100, drawx + 80, drawy + 25);
+                g.drawLine(26, 100, drawx + 80, drawy - 75);
+            }else if (drawy==25){
+                g.drawLine(26, 100, drawx + 80, drawy + 25);
+                g.drawLine(26, 100, drawx, drawy + 125);
+            }
+        }
         drawx = 340;
         drawy = 125;
         count = 0;
-        boolean i = true;
-        for(Component C:Ontwerp){
-            while (i == true){
-            try {
-                g.drawImage(C.getAfbeelding(), drawx, drawy, null);
-                count++;
-                if(drawy == 125){
-                    drawy = drawy - 100;
-                    break;
-                }else if(drawy == 25){
-                    drawx = drawx - 80;
-                    drawy = 125;
-                    break;
-                }if(count > 3){
-                    g.drawLine(drawx+25, drawy+125, drawx+80, drawy+125);
-                    break;
-                }
-            }catch(NullPointerException ex){
-                JOptionPane.showMessageDialog(this,"Geen Component Geselecteerd",
-                        "Geen component",JOptionPane.WARNING_MESSAGE);
-                Ontwerp.clear();
-                i = false;}
+            for (Component C : Ontwerp) {
+                    try {
+                        g.drawImage(C.getAfbeelding(), drawx, drawy, null);
+                        C.Plaats(drawx, drawy);
+                        if (count >= 2) {
+                            g.drawLine(drawx + 50, drawy + 25, drawx + 80, drawy + 25);
+                        }
+                        if (drawy == 125) {
+                            drawy = drawy - 100;
+                        } else if (drawy == 25) {
+                            drawx = drawx - 80;
+                            drawy = 125;
+                        }
+                        count++;
+                }catch(NullPointerException ex){
+                    JOptionPane.showMessageDialog(this, "Geen Component Geselecteerd",
+                            "Geen component", JOptionPane.WARNING_MESSAGE);
+                    Ontwerp.clear();
             }
         }
     }
     public void mousePressed(MouseEvent e){
     }
-    public void mouseClicked(MouseEvent e){
+    public void mouseClicked(MouseEvent e) {
+//        System.out.println("test");
+//        System.out.println(e.getX());
+//        System.out.println(e.getY());
+        for (Component C : Ontwerp) {
+            if (C.getX() <= e.getX() && C.getX()+50 >= e.getX() && C.getY() <= e.getY() && C.getY()+50 >= e.getY()) {
+                JLComponent.setText(C.toString());
+            }
+        }
     }
     public void mouseReleased(MouseEvent e){
     }
@@ -316,6 +345,7 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
         }
         int[] cheapest_webservers = calc(webservers, percentage);
         total = total + price("WEBSERVER", cheapest_webservers);
+        bestconfig = "Totaalbedrag van de configuratie voor beschikbaarheidspercentage " + percentage + "% is €" + total;
         return "Totaalbedrag van de configuratie voor beschikbaarheidspercentage " + percentage + "% is €" + total;
     }
 
@@ -323,39 +353,51 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
 
         double total = 0;
         if(cheapest[0] == -1) {
-            System.out.println("Configuratie onmogelijk!");
+            JOptionPane.showMessageDialog(this, "Configuratie onmogelijk",
+                    "Configuratie onmogelijk", JOptionPane.WARNING_MESSAGE);
             return 0;
         }
         switch (type) {
             case "WEBSERVER":
                 for(int i = 0; i < cheapest.length; i++) {
-                    System.out.println("WEBSERVER: " + this.getWebservers().get(cheapest[i]).getNaam() + "(€"+ this.getWebservers().get(cheapest[i]).getKosten() + " | " + this.getWebservers().get(cheapest[i]).getBeschikbaarheid() + "% uptime)");
+                    bestwebserver = "WEBSERVER: " + this.getWebservers().get(cheapest[i]).getNaam()
+                            + "(€"+ this.getWebservers().get(cheapest[i]).getKosten() + " | " +
+                            this.getWebservers().get(cheapest[i]).getBeschikbaarheid() + "% uptime)";
                     int price = this.getWebservers().get(cheapest[i]).getKosten();
                     total = total + price;
                 }
                 break;
             case "DBSERVER":
                 for(int i = 0; i < cheapest.length; i++) {
-                    System.out.println("DBSERVER: " + this.getDBServers().get(cheapest[i]).getNaam() + "(€"+ this.getDBServers().get(cheapest[i]).getKosten() + " | " + this.getDBServers().get(cheapest[i]).getBeschikbaarheid() + "% uptime)");
+                    bestdbserver = "DBSERVER: " + this.getDBServers().get(cheapest[i]).getNaam() +
+                            "(€"+ this.getDBServers().get(cheapest[i]).getKosten() + " | " +
+                            this.getDBServers().get(cheapest[i]).getBeschikbaarheid() + "% uptime)";
                     int price = this.getDBServers().get(cheapest[i]).getKosten();
                     total = total + price;
                 }
                 break;
             case "LOADBALANCER":
                 for(int i = 0; i < cheapest.length; i++) {
-                    System.out.println("LOADBALANCER: " + this.getLoadbalancers().get(cheapest[i]).getNaam() + "(€"+ this.getLoadbalancers().get(cheapest[i]).getKosten() + " | " + this.getLoadbalancers().get(cheapest[i]).getBeschikbaarheid() + "% uptime)");
+                    bestloadbalancer = "LOADBALANCER: " + this.getLoadbalancers().get(cheapest[i]).getNaam() +
+                            "(€"+ this.getLoadbalancers().get(cheapest[i]).getKosten() + " | " +
+                            this.getLoadbalancers().get(cheapest[i]).getBeschikbaarheid() + "% uptime)";
                     int price = this.getLoadbalancers().get(cheapest[i]).getKosten();
                     total = total + price;
                 }
                 break;
             case "FIREWALL":
                 for(int i = 0; i < cheapest.length; i++) {
-                    System.out.println("FIREWALL: " + this.getFirewalls().get(cheapest[i]).getNaam() + "(€"+ this.getFirewalls().get(cheapest[i]).getKosten() + " | " + this.getFirewalls().get(cheapest[i]).getBeschikbaarheid() + "% uptime)");
+                    bestfirewall = "FIREWALL: " + this.getFirewalls().get(cheapest[i]).getNaam() +
+                            "(€"+ this.getFirewalls().get(cheapest[i]).getKosten() + " | " +
+                            this.getFirewalls().get(cheapest[i]).getBeschikbaarheid() + "% uptime)";
                     int price = this.getFirewalls().get(cheapest[i]).getKosten();
                     total = total + price;
                 }
                 break;
+
         }
+        JLbestconfig.setText(bestwebserver + ", " + bestdbserver + ", " + bestloadbalancer + ", " +
+                bestfirewall + ", " + bestconfig);
         return total;
     }
 
