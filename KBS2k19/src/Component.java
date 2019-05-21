@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 public abstract class Component {
+    private int id;
     private String naam;
     private String type;
     private double beschikbaarheid;
@@ -21,8 +22,13 @@ public abstract class Component {
         this.kosten = kosten;
     }
 
-
-
+    public Component(int id, String naam, String type, double beschikbaarheid, int kosten) {
+        this.id = id;
+        this.naam = naam;
+        this.type = type;
+        this.beschikbaarheid = beschikbaarheid;
+        this.kosten = kosten;
+    }
 
     public String getNaam() {
         return naam;
