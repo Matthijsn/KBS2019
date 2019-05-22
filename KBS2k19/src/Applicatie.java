@@ -80,6 +80,7 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
         setSize(800, 500);
         setLayout(new FlowLayout());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setResizable(false);
 
         menuBar = new JMenuBar();
         this.setJMenuBar(menuBar);
@@ -134,7 +135,6 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
         add(opnieuw);
 
         DefaultMutableTreeNode Ctree = new DefaultMutableTreeNode("Componenten");
-
         DefaultMutableTreeNode N1 = new DefaultMutableTreeNode("DBServers");
         Ctree.add(N1);
         DefaultMutableTreeNode N2 = new DefaultMutableTreeNode("Webservers");
@@ -160,14 +160,23 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
             N4.add(new DefaultMutableTreeNode(D.getNaam()));
         }
         tree = new JTree(Ctree);
+        DefaultTreeCellRenderer cr = new DefaultTreeCellRenderer();
+        cr.setOpenIcon(null);
+        cr.setClosedIcon(null);
+        cr.setLeafIcon(null);
+        tree.setCellRenderer(cr);
         JScrollPane JSP = new JScrollPane(tree);
         JSP.setPreferredSize(new Dimension(175, 200));
         add(JSP);
         tree.getSelectionModel().addTreeSelectionListener(new TreeSelectionListener() {
             @Override
             public void valueChanged(TreeSelectionEvent e) {
-                DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
-                SelectComponent = selectedNode.getUserObject().toString();
+                try {
+                    DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+                    SelectComponent = selectedNode.getUserObject().toString();
+                }catch(NullPointerException NE){
+
+                }
                 for(Component C:Componenten){
                     if(C.getNaam()==SelectComponent){
                         SelectObject=C;
@@ -360,12 +369,15 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
         }
     }
     public void mouseClicked(MouseEvent e) {
-            for (Component C : Ontwerp) {
-                if (C.getX() <= e.getX() && C.getX() + 50 >= e.getX() && C.getY() <= e.getY() && C.getY() + 50 >= e.getY()) {
-                    JLComponent.setText("<html>Naam: " + C.getNaam() + "<br/>Type:" + C.getType() + "<br/>Beschikbaarheid:" + C.getBeschikbaarheid() + "%<br/> Kosten:" + C.getKosten() + "</html>");
-                    SelectedComponent = C;
-                }
+        for (Component C : Ontwerp) {
+            if (C.getX() <= e.getX() && C.getX() + 50 >= e.getX() && C.getY() <= e.getY() && C.getY() + 50 >= e.getY()) {
+                JLComponent.setText("<html>Naam: " + C.getNaam() + "<br/>Type:" + C.getType() + "<br/>Beschikbaarheid:" + C.getBeschikbaarheid() + "%<br/> Kosten:" + C.getKosten() + "</html>");
+                SelectedComponent = C;
             }
+        }
+        if (e.getX() >= 0 && e.getX() <= 50 && e.getY() >= 80 && e.getY() <= 130) {
+
+        }
     }
     public void mousePressed(MouseEvent e){
     }
