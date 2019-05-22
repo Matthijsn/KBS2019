@@ -9,7 +9,7 @@ public class Panel extends JPanel {
     private BufferedImage cloud;
     public Panel(Applicatie A){
         Applicatietje = A;
-        setPreferredSize(new Dimension(400, 200));
+        setPreferredSize(new Dimension(410, 200));
         setBackground(Color.LIGHT_GRAY);
         try{
             cloud = ImageIO.read(new File("src/internet.png"));

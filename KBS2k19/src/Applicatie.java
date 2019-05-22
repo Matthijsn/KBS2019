@@ -50,6 +50,7 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
     private boolean BKoppelen;
     private Component SelectedComponent;
     private Component Component1;
+    private int id = 0;
 
     public Applicatie() {
         Componenten = new ArrayList<>();
@@ -69,7 +70,7 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
         Webservers.add(new Webserver("HAL9002W", 90, 3200));
         Webservers.add(new Webserver("HAL9003W", 95, 5100));
         Firewalls.add(new Firewall("pfSense", 99.999, 2000));
-        Loadbalancers.add(new Loadbalancer("DBloadbalancer", 99.999, 2000));
+        Loadbalancers.add(new Loadbalancer("Loadbalancer", 99.999, 2000));
         Componenten.addAll(Webservers);
         Componenten.addAll(DBServers);
         Componenten.addAll(Firewalls);
@@ -79,6 +80,7 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
         setSize(800, 500);
         setLayout(new FlowLayout());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setResizable(false);
 
         menuBar = new JMenuBar();
         this.setJMenuBar(menuBar);
@@ -133,7 +135,6 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
         add(opnieuw);
 
         DefaultMutableTreeNode Ctree = new DefaultMutableTreeNode("Componenten");
-
         DefaultMutableTreeNode N1 = new DefaultMutableTreeNode("DBServers");
         Ctree.add(N1);
         DefaultMutableTreeNode N2 = new DefaultMutableTreeNode("Webservers");
@@ -159,14 +160,23 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
             N4.add(new DefaultMutableTreeNode(D.getNaam()));
         }
         tree = new JTree(Ctree);
+        DefaultTreeCellRenderer cr = new DefaultTreeCellRenderer();
+        cr.setOpenIcon(null);
+        cr.setClosedIcon(null);
+        cr.setLeafIcon(null);
+        tree.setCellRenderer(cr);
         JScrollPane JSP = new JScrollPane(tree);
         JSP.setPreferredSize(new Dimension(175, 200));
         add(JSP);
         tree.getSelectionModel().addTreeSelectionListener(new TreeSelectionListener() {
             @Override
             public void valueChanged(TreeSelectionEvent e) {
-                DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
-                SelectComponent = selectedNode.getUserObject().toString();
+                try {
+                    DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+                    SelectComponent = selectedNode.getUserObject().toString();
+                }catch(NullPointerException NE){
+
+                }
                 for(Component C:Componenten){
                     if(C.getNaam()==SelectComponent){
                         SelectObject=C;
@@ -229,13 +239,24 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
     }
 
     public void actionPerformed(ActionEvent e){
+        int id= 0;
         if(e.getSource()==Plaats){
             for(Component C:Componenten){
                 if(C.getNaam()==SelectComponent){
                     SelectObject=C;
-                                    }
+                }
             }
-            Ontwerp.add(SelectObject);
+            if (SelectObject instanceof DBServer) {
+                Ontwerp.add(new DBServer(id, SelectObject.getNaam(), SelectObject.getType(), SelectObject.getBeschikbaarheid(), SelectObject.getKosten()));
+            } else if (SelectObject instanceof Webserver) {
+                Ontwerp.add(new Webserver(id, SelectObject.getNaam(), SelectObject.getType(), SelectObject.getBeschikbaarheid(), SelectObject.getKosten()));
+            } else if (SelectObject instanceof Firewall) {
+                Ontwerp.add(new Firewall(id, SelectObject.getNaam(), SelectObject.getType(), SelectObject.getBeschikbaarheid(), SelectObject.getKosten()));
+            } else if (SelectObject instanceof Loadbalancer) {
+                Ontwerp.add(new Loadbalancer(id, SelectObject.getNaam(), SelectObject.getType(), SelectObject.getBeschikbaarheid(), SelectObject.getKosten()));
+            }
+            id++;
+            repaint();
             for(Component C:Ontwerp) {
                 if (C.getType() == "Firewall") {
                     for (Component CO : Ontwerp) {
@@ -275,6 +296,7 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
         }else if(e.getSource()==opnieuw){
             Ontwerp.clear();
             Verbindingen.clear();
+            id = 0;
             JLComponent.setText("<html>Naam: <br/>" +
                     "Type: <br/>" +
                     "Beschikbaarheid:00.00%<br/>" +
@@ -316,7 +338,8 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
                 g.drawImage(C.getAfbeelding(), drawx, drawy, null);
                 C.Plaats(drawx, drawy);
                 if (count >= 2) {
-//                    g.drawLine(drawx + 50, drawy + 25, drawx + 80, drawy + 25);
+//                    g.drawLine(drawx + 50, drawy + 25, drawx + 80, drawy + 2
+//                    5);
                 }
                 if (drawy == 125) {
                     drawy = drawy - 100;
@@ -324,10 +347,18 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
                     drawx = drawx - 80;
                     drawy = 125;
                 }
-//                g.drawString(C.getNaam(), C.getX(), C.getY()+60);
+                g.drawString(C.getNaam(), C.getX(), C.getY()+60);
             count++;
                     for (Verbinding V : Verbindingen) {
-                        g.drawLine(V.getC1().getX(), V.getC1().getY(), V.getC2().getX(), V.getC2().getY());
+                        if(V.getC1().getX()>V.getC2().getX()) {
+                            g.drawLine(V.getC1().getX()+10, V.getC1().getY()+25, V.getC2().getX()+25, V.getC2().getY()+25);
+                        }else if(V.getC1().getX()<V.getC2().getX()){
+                            g.drawLine(V.getC1().getX()+10, V.getC1().getY()+25, V.getC2().getX()+25, V.getC2().getY()+25);
+                        }else if(V.getC1().getY()>V.getC2().getY()){
+                            g.drawLine(V.getC1().getX()+25, V.getC1().getY(), V.getC2().getX()+25, V.getC2().getY()+50);
+                        }else if (V.getC1().getY()<V.getC2().getY()){
+                            g.drawLine(V.getC1().getX()+25, V.getC1().getY()+50, V.getC2().getX()+25, V.getC2().getY());
+                        }
                 }
         }
 
@@ -339,10 +370,13 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
     }
     public void mouseClicked(MouseEvent e) {
         for (Component C : Ontwerp) {
-            if (C.getX() <= e.getX() && C.getX()+50 >= e.getX() && C.getY() <= e.getY() && C.getY()+50 >= e.getY()) {
-                JLComponent.setText("<html>Naam: "+C.getNaam()+"<br/>Type:"+C.getType()+"<br/>Beschikbaarheid:"+C.getBeschikbaarheid()+"%<br/> Kosten:"+C.getKosten()+" </html>");
+            if (C.getX() <= e.getX() && C.getX() + 50 >= e.getX() && C.getY() <= e.getY() && C.getY() + 50 >= e.getY()) {
+                JLComponent.setText("<html>Naam: " + C.getNaam() + "<br/>Type:" + C.getType() + "<br/>Beschikbaarheid:" + C.getBeschikbaarheid() + "%<br/> Kosten:" + C.getKosten() + "</html>");
                 SelectedComponent = C;
             }
+        }
+        if (e.getX() >= 0 && e.getX() <= 50 && e.getY() >= 80 && e.getY() <= 130) {
+
         }
     }
     public void mousePressed(MouseEvent e){
@@ -538,4 +572,5 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
     public ArrayList<Loadbalancer> getLoadbalancers() {
         return Loadbalancers;
     }
+
 }
