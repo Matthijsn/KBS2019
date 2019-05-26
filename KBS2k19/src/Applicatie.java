@@ -25,8 +25,6 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
     private JTree tree;
     private String SelectComponent;
     private Component SelectObject;
-    private Image plaatje;
-    //    private JButton
     Panel Panel = new Panel(this);
     private JMenuBar menuBar;
     private JMenu Bestand;
@@ -93,7 +91,6 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
 
             public void menuDeselected(MenuEvent e) {
                 System.out.println("deselected bestand");
-
             }
 
             public void menuCanceled(MenuEvent e) {
@@ -114,7 +111,7 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
         BOpen.addActionListener(this);
         Bestand.add(BOpen);
 
-        jlkosten = new JLabel("Kosten: ");
+        jlkosten = new JLabel("Kosten: € ");
         add(jlkosten);
         jlkosten.setPreferredSize(new Dimension(80, 50));
 
@@ -197,7 +194,7 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
                 "Beschikbaarheid:00.00%<br/>" +
                 "Kosten: </html>");
         add(JLComponent);
-        JBKoppelen = new JButton("Koppelen");
+        JBKoppelen = new JButton("Koppel");
         JBKoppelen.addActionListener(this);
         BKoppelen = false;
         add(JBKoppelen);
@@ -218,18 +215,6 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
             }
         };
         back3.addMouseListener(backListener);
-        //MouseListener beschikbaarheidListener = new MouseAdapter() {
-        //    public void mouseClicked(MouseEvent e) {
-        //        System.out.println(jtbeschikbaarheid.getText());
-        //    }
-        //};
-        //jbberekenKosten.addMouseListener(beschikbaarheidListener);
-//        MouseListener beschikbaarheidListener = new MouseAdapter() {
-//            public void mouseClicked(MouseEvent e) {
-//                System.out.println(jtbeschikbaarheid.getText());
-//            }
-//        };
-//        jbberekenKosten.addMouseListener(beschikbaarheidListener);
 
         JLbestconfig = new JLabel("");
         add(JLbestconfig);
