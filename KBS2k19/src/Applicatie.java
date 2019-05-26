@@ -260,13 +260,13 @@ public class Applicatie extends JFrame implements ActionListener, MouseListener 
                 }
                 else if(C.getType() == "Webserver"){
                     for (Component CO : Ontwerp) {
-                        totaalkosten = totaalkosten + SelectObject.getKosten();
+                        totaalkosten = totaalkosten + CO.getKosten();
                         beschikbaarheid = beschikbaarheid * CO.getBeschikbaarheid() / 100;
                     }
                 }
                 else if(C.getType() == "DBServer"){
                     for (Component CO : Ontwerp) {
-                        totaalkosten = totaalkosten + SelectObject.getKosten();
+                        totaalkosten = totaalkosten + CO.getKosten();
                         beschikbaarheid = beschikbaarheid * CO.getBeschikbaarheid() / 100;
                     }
                 }
